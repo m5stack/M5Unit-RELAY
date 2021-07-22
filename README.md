@@ -131,7 +131,7 @@ I2C Address: 0x26
 |3 |R |R/W|
 |2 |R |R/W|
 |1 |R |R/W|
-|0 |R |R/W|
+|0 |Sync Mode 0:Async 1:Sync|R/W|
 
 ## RELAY control Reg 0x11
 

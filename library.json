@@ -1,14 +1,14 @@
 {
-  "name": "UNIT_4RELY",
-  "description": "An ESP32 Arduino board",
+  "name": "UNIT_4RELAY",
+  "description": "Library for M5Stack 4RELAY UNIT",
   "keywords": "M5Stack",
   "authors": {
-    "name": "Zibin, M5Stack",
+    "name": "M5Stack",
     "url": "http://www.m5stack.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/m5stack/UNIT_4RELY.git"
+    "url": "https://github.com/m5stack/UNIT_4RELAY.git"
   },
   "version": "0.0.1",
   "framework": "arduino",
