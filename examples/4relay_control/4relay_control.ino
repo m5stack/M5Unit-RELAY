@@ -1,21 +1,29 @@
 /*
-    Description: Control 4 relays and demonstrate the asynchronous control relay
-   LED
-*/
-/*-----------------------------------------------------------------------------*/
-// |RELAY control reg          | 0x10
-// |-----------------------------------------------------------------------------
-// |Relay_ctrl_mode_reg[0]     | R/W | System control
-//                                   | 7 | 6 | 5 | 4 | 3 | 2 | 1 |     0     |
-//                                   | R | R | R | R | R | R | R | Sync Mode |
-//                                   | -Sync Mode:0 LED&Relay Async
-//                                   | -Sync Mode:1 LED&Relay Sync
-//---------------------------------------------------------------------------------
-// |Relay_ctrl_mode_reg[1]     | R/W | Relay & LED control
-//                             |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
-//                             | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
-//
-/*-------------------------------------------------------------------------------*/
+*******************************************************************************
+* Copyright (c) 2021 by M5Stack
+*                  Equipped with M5Core sample source code
+*                          配套  M5Core 示例源代码
+* Visit for more information: https://docs.m5stack.com/en/unit/4relay
+* 获取更多资料请访问: https://docs.m5stack.com/zh_CN/unit/4relay
+*
+* Describe: 4-RELAY.
+* Date: 2022/6/3
+*******************************************************************************
+  Control 4 relays and demonstrate the asynchronous control relay LED
+  控制4个继电器并演示异步控制继电器的LED灯
+-----------------------------------------------------------------------------
+|RELAY control reg          | 0x10
+|-----------------------------------------------------------------------------
+|Relay_ctrl_mode_reg[0]     | R/W | System control
+                                  | 7 | 6 | 5 | 4 | 3 | 2 | 1 |     0     |
+                                  | R | R | R | R | R | R | R | Sync Mode |
+                                  | -Sync Mode:0 LED&Relay Async
+                                  | -Sync Mode:1 LED&Relay Sync
+---------------------------------------------------------------------------------
+|Relay_ctrl_mode_reg[1]     | R/W | Relay & LED control
+                            |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
+                            | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
+-------------------------------------------------------------------------------*/
 
 #include <M5Stack.h>
 
@@ -24,7 +32,6 @@
 UNIT_4RELAY unit_4relay;
 
 void setup() {
-    // put your setup code here, to run once:
     M5.begin(true, true, true, true);
     M5.Lcd.setCursor(90, 0, 4);
     M5.Lcd.setTextColor(TFT_GREEN, TFT_BLACK);
@@ -40,6 +47,7 @@ void setup() {
     M5.Lcd.setCursor(20, 80, 4);
     M5.Lcd.print("Sync Mode: ");
 
+    unit_4relay.begin(&Wire, SDA, SCL, 4000000UL);
     /*
      * MODE:
      * Async == 0;
