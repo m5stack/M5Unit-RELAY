@@ -24,6 +24,9 @@
                             |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
                             | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
 -------------------------------------------------------------------------------*/
+// Note: The relay can only be controlled in synchronous mode, if the relay is
+// controlled in asynchronous mode, it will be invalid.
+// 注意:只能在同步模式下控制继电器,如果在异步模式下对继电器进行控制将无效,.
 
 #include <M5Stack.h>
 #include "Unit_4RELAY.h"
@@ -65,10 +68,10 @@ void loop() {
             relay.relayWrite((count_i - 4), 0);
         } else if ((count_i < 4) && (flag_mode == 0)) {
             M5.Lcd.printf("%d ON", count_i);
-            relay.LEDWrite(count_i, 1);
+            relay.ledWrite(count_i, 1);
         } else if ((count_i >= 4) && (flag_mode == 0)) {
             M5.Lcd.printf("%d OFF", (count_i - 4));
-            relay.LEDWrite((count_i - 4), 0);
+            relay.ledWrite((count_i - 4), 0);
         }
         count_i++;
         if (count_i >= 8) count_i = 0;
@@ -91,10 +94,10 @@ void loop() {
         if (flag_mode == 1) {
             if (flag_all) {
                 M5.Lcd.printf("ALL.ON ");
-                relay.relayALL(1);
+                relay.relayAll(1);
             } else {
                 M5.Lcd.printf("ALL.OFF");
-                relay.relayALL(0);
+                relay.relayAll(0);
             }
         } else {
             if (flag_all) {

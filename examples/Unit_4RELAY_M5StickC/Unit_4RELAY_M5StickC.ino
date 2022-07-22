@@ -9,8 +9,8 @@
 * Product: Unit 4RELAY.
 * Date: 2022/7/22
 *******************************************************************************
-  Please connect to port,Control 4 relays and demonstrate the asynchronous
-control relay LED 请连接端口，控制4继电器，并演示异步控制继电器LED
+  Please connect to port,Control 4 relays and demonstrate the synchronous
+  control relay LED 请连接端口，控制4继电器，并演示同步控制继电器LED
 -------------------------------------------------------------------------------
   RELAY control reg           | 0x10
   -----------------------------------------------------------------------------
@@ -24,6 +24,9 @@ control relay LED 请连接端口，控制4继电器，并演示异步控制继�
                               |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
                               | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
 -------------------------------------------------------------------------------*/
+// Note: The relay can only be controlled in synchronous mode, if the relay is
+// controlled in asynchronous mode, it will be invalid.
+// 注意:只能在同步模式下控制继电器,如果在异步模式下对继电器进行控制将无效,.
 
 #include <M5StickC.h>
 #include "Unit_4RELAY.h"
@@ -38,37 +41,40 @@ void setup() {
     M5.Lcd.print("4-RELAY UNIT");
     M5.Lcd.setCursor(0, 25);
     M5.Lcd.print("Independent Switch:");
-    Wire.begin(32, 33);  // Initialize pin 32,33.  初始化32,33引脚
-    relay.Init(1);       // Set the lamp and relay to asynchronous mode(Async =
-                    // 0,Sync = 1).  将灯和继电器设为非同步模式
+    relay.begin();
+    relay.Init(1);  // Set the lamp and relay to synchronous mode(Async =
+                    // 0,Sync = 1).  将灯和继电器设为同步模式
 }
 
-char count_i   = 1;
-bool sync_flag = 0, all_flag = 0;
+char count_i  = 0;
+bool flag_all = false;
 
 void loop() {
-    M5.update();  // Check button down state.  检测按键按下状态
     if (M5.BtnA.wasPressed()) {  // If button A is pressed.  如果按键A按下
         M5.Lcd.fillRect(117, 25, 40, 20, BLACK);
         M5.Lcd.setCursor(117, 25);
-        if (count_i < 5) {
+        if ((count_i < 4)) {  // Control relays turn on/off in sequence.
+                              // 控制继电器依次接通/断开
             M5.Lcd.printf("%d ON", count_i);
-            relay.relayWrite(
-                count_i - 1,
-                1);  // Open the relay at Count_i.  打开count_i处的继电器
-            relay.relayWrite(count_i - 2, 0);
-            relay.LEDWrite(count_i - 1, 1);
-            relay.LEDWrite(count_i - 2, 0);
-        } else {
-            M5.Lcd.printf("ALL.ON ");
-            relay.relayALL(1);  // Open all the relays.  打开所有的继电器
-            relay.LED_ALL(1);
+            relay.relayWrite(count_i, 1);
+        } else if ((count_i >= 4)) {
+            M5.Lcd.printf("%d OFF", (count_i - 4));
+            relay.relayWrite((count_i - 4), 0);
         }
         count_i++;
-        if (count_i > 6) {
-            count_i = 1;
-            relay.relayALL(0);  // Open all the relays.  打开所有的继电器
-            relay.LED_ALL(0);
-        }
+        if (count_i >= 8) count_i = 0;
     }
+    if (M5.BtnB.wasPressed()) {
+        M5.Lcd.fillRect(0, 50, 80, 20, BLACK);
+        M5.Lcd.setCursor(0, 50);
+        if (flag_all) {  // Control all relays on/off.  控制所有继电器接通/断开
+            M5.Lcd.printf("Realy All ON \n");
+            relay.relayAll(1);
+        } else {
+            M5.Lcd.printf("Realy All OFF\n");
+            relay.relayAll(0);
+        }
+        flag_all = !flag_all;
+    }
+    M5.update();
 }

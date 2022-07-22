@@ -1,11 +1,11 @@
 #include "Unit_4RELAY.h"
 
 /*! @brief Initialize the 4RELAY.*/
-void UNIT_4RELAY::begin(TwoWire *wire, uint8_t sda, uint8_t scl) {
+bool UNIT_4RELAY::begin(TwoWire *wire, uint8_t sda, uint8_t scl) {
     _wire = wire;
     _sda  = sda;
     _scl  = scl;
-    _wire->begin((int)_sda, (int)_scl);
+    return _wire->begin((int)_sda, (int)_scl, (uint32_t)0U);
 }
 
 /*! @brief Write a certain length of data to the specified register address. */
@@ -42,7 +42,7 @@ uint8_t UNIT_4RELAY::read1Byte(uint8_t address, uint8_t Register_address) {
 
 /*! @brief Set the mode of all relays at the same time.
  *  @param state OFF = 0, ON = 1. */
-void UNIT_4RELAY::relayALL(bool state) {
+void UNIT_4RELAY::relayAll(bool state) {
     write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, state * (0x0f));
 }
 
@@ -69,7 +69,7 @@ void UNIT_4RELAY::relayWrite(uint8_t number, bool state) {
 /*! @brief Control the on/off of the specified led.
  *  @param number Bit number of led (0~3).
     @param state OFF = 0, ON = 1 . */
-void UNIT_4RELAY::LEDWrite(uint8_t number, bool state) {
+void UNIT_4RELAY::ledWrite(uint8_t number, bool state) {
     uint8_t StateFromDevice =
         read1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG);
     if (state == 0) {

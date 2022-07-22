@@ -25,14 +25,14 @@ class UNIT_4RELAY {
     uint8_t read1Byte(uint8_t address, uint8_t register_address);
 
    public:
-    void begin(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL);
+    bool begin(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL);
     void Init(bool mode);
 
     void relayWrite(uint8_t number, bool state);
-    void relayALL(bool state);
+    void relayAll(bool state);
 
-    void LEDWrite(uint8_t number, bool state);
-    void LED_ALL(bool state);
+    void ledWrite(uint8_t number, bool state);
+    void ledAll(bool state);
 
     void switchMode(bool mode);
 };

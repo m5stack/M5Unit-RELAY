@@ -24,6 +24,9 @@ control relay LED 请连接A端口，控制4继电器，并演示异步控制继
                               |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
                               | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
 -------------------------------------------------------------------------------*/
+// Note: The relay can only be controlled in synchronous mode, if the relay is
+// controlled in asynchronous mode, it will be invalid.
+// 注意:只能在同步模式下控制继电器,如果在异步模式下对继电器进行控制将无效,.
 
 #include <M5Core2.h>
 #include "Unit_4RELAY.h"
@@ -58,7 +61,7 @@ void loop() {
                     count_i,
                     1);  // Open the relay at Count_i.  打开count_i处的继电器
             } else
-                relay.LEDWrite(count_i,
+                relay.ledWrite(count_i,
                                1);  // Turn on count_I to get led lights.
                                     // 打开count_i出得led灯
         } else {
@@ -68,7 +71,7 @@ void loop() {
                     (count_i - 4),
                     0);  // Close the relay at Count_i.  关闭count_i处的继电器
             } else
-                relay.LEDWrite(
+                relay.ledWrite(
                     (count_i - 4),
                     0);  // Turn off the COUNt_I leds.  关闭count_i出得led灯
         }
@@ -92,13 +95,13 @@ void loop() {
         if (all_flag) {
             M5.Lcd.printf("ALL.ON ");
             if (sync_flag)
-                relay.relayALL(1);  // Open all the relays.  打开所有的继电器
+                relay.relayAll(1);  // Open all the relays.  打开所有的继电器
             else
                 relay.LED_ALL(1);  // Turn on all the lights. 打开所有的灯
         } else {
             M5.Lcd.printf("ALL.OFF");
             if (sync_flag)
-                relay.relayALL(0);  // Close all relays.  关闭所有的继电器
+                relay.relayAll(0);  // Close all relays.  关闭所有的继电器
             else
                 relay.LED_ALL(0);  // Turn off all the lights.  关闭所有的灯
         }
