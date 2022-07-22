@@ -6,8 +6,8 @@
 * Visit for more information: https://docs.m5stack.com/en/unit/4relay
 * 获取更多资料请访问: https://docs.m5stack.com/zh_CN/unit/4relay
 *
-* Describe: 4-RELAY.
-* Date: 2022/6/3
+* Product: Unit 4RELAY.
+* Date: 2022/7/22
 *******************************************************************************
   Control 4 relays and demonstrate the asynchronous control relay LED
   控制4个继电器并演示异步控制继电器的LED灯
@@ -26,15 +26,14 @@
 -------------------------------------------------------------------------------*/
 
 #include <M5Stack.h>
+#include "Unit_4RELAY.h"
 
-#include "UNIT_4RELAY.h"
-
-UNIT_4RELAY unit_4relay;
+UNIT_4RELAY relay;
 
 void setup() {
-    M5.begin(true, true, true, true);
+    M5.begin();
     M5.Lcd.setCursor(90, 0, 4);
-    M5.Lcd.setTextColor(TFT_GREEN, TFT_BLACK);
+    M5.Lcd.setTextColor(TFT_ORANGE, TFT_BLACK);
     M5.Lcd.print("4-RELAY UNIT");
     M5.Lcd.setCursor(0, 220, 2);
     M5.Lcd.print("Independent Switch");
@@ -46,14 +45,8 @@ void setup() {
     M5.Lcd.print("Relay State: ");
     M5.Lcd.setCursor(20, 80, 4);
     M5.Lcd.print("Sync Mode: ");
-
-    unit_4relay.begin(&Wire, SDA, SCL, 4000000UL);
-    /*
-     * MODE:
-     * Async == 0;
-     * Sync  == 1;
-     */
-    unit_4relay.Init(0);
+    relay.begin();
+    relay.Init(0);  // Async = 0, Sync = 1
 }
 
 uint8_t count_i = 0;
@@ -66,16 +59,16 @@ void loop() {
         M5.Lcd.setCursor(160, 50, 4);
         if ((count_i < 4) && (flag_mode == 1)) {
             M5.Lcd.printf("%d ON", count_i);
-            unit_4relay.relayWrite(count_i, 1);
+            relay.relayWrite(count_i, 1);
         } else if ((count_i >= 4) && (flag_mode == 1)) {
             M5.Lcd.printf("%d OFF", (count_i - 4));
-            unit_4relay.relayWrite((count_i - 4), 0);
+            relay.relayWrite((count_i - 4), 0);
         } else if ((count_i < 4) && (flag_mode == 0)) {
             M5.Lcd.printf("%d ON", count_i);
-            unit_4relay.LEDWrite(count_i, 1);
+            relay.LEDWrite(count_i, 1);
         } else if ((count_i >= 4) && (flag_mode == 0)) {
             M5.Lcd.printf("%d OFF", (count_i - 4));
-            unit_4relay.LEDWrite((count_i - 4), 0);
+            relay.LEDWrite((count_i - 4), 0);
         }
         count_i++;
         if (count_i >= 8) count_i = 0;
@@ -90,7 +83,7 @@ void loop() {
             M5.Lcd.setCursor(160, 80, 4);
             M5.Lcd.print("Sync");
         }
-        unit_4relay.switchMode(flag_mode);
+        relay.switchMode(flag_mode);
     }
     if (M5.BtnC.wasPressed()) {
         M5.Lcd.fillRect(160, 50, 100, 20, TFT_BLACK);
@@ -98,18 +91,18 @@ void loop() {
         if (flag_mode == 1) {
             if (flag_all) {
                 M5.Lcd.printf("ALL.ON ");
-                unit_4relay.relayALL(1);
+                relay.relayALL(1);
             } else {
                 M5.Lcd.printf("ALL.OFF");
-                unit_4relay.relayALL(0);
+                relay.relayALL(0);
             }
         } else {
             if (flag_all) {
                 M5.Lcd.printf("ALL.ON ");
-                unit_4relay.LED_ALL(1);
+                relay.LED_ALL(1);
             } else {
                 M5.Lcd.printf("ALL.OFF");
-                unit_4relay.LED_ALL(0);
+                relay.LED_ALL(0);
             }
         }
         flag_all = !flag_all;

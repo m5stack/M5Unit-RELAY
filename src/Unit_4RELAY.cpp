@@ -1,19 +1,14 @@
-#include "UNIT_4RELAY.h"
+#include "Unit_4RELAY.h"
 
-void UNIT_4RELAY::Init(bool mode) {
-    write1Byte(DEVICE_I2C_ADDR, mode_Reg, mode);
-    write1Byte(DEVICE_I2C_ADDR, relay_Reg, 0);
-}
-
-void UNIT_4RELAY::begin(TwoWire *wire, uint8_t sda, uint8_t scl,
-                        uint32_t freq) {
+/*! @brief Initialize the 4RELAY.*/
+void UNIT_4RELAY::begin(TwoWire *wire, uint8_t sda, uint8_t scl) {
     _wire = wire;
     _sda  = sda;
     _scl  = scl;
-    _freq = freq;
-    _wire->begin(DEVICE_I2C_ADDR, _sda, _scl, _freq);
+    _wire->begin((int)_sda, (int)_scl);
 }
 
+/*! @brief Write a certain length of data to the specified register address. */
 void UNIT_4RELAY::write1Byte(uint8_t address, uint8_t Register_address,
                              uint8_t data) {
     _wire->beginTransmission(address);
@@ -22,6 +17,20 @@ void UNIT_4RELAY::write1Byte(uint8_t address, uint8_t Register_address,
     _wire->endTransmission();
 }
 
+/*! @brief Setting the mode of the device, and turn off all relays.
+ *  @param mode Async = 0, Sync = 1. */
+void UNIT_4RELAY::Init(bool mode) {
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_REG, mode);
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, 0);
+}
+
+/*! @brief Setting the mode of the device.
+ *  @param mode Async = 0, Sync = 1. */
+void UNIT_4RELAY::switchMode(bool mode) {
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_REG, mode);
+}
+
+/*! @brief Read a certain length of data to the specified register address. */
 uint8_t UNIT_4RELAY::read1Byte(uint8_t address, uint8_t Register_address) {
     _wire->beginTransmission(address);  // Initialize the Tx buffer
     _wire->write(Register_address);  // Put slave register address in Tx buffer
@@ -31,34 +40,42 @@ uint8_t UNIT_4RELAY::read1Byte(uint8_t address, uint8_t Register_address) {
     return data;
 }
 
+/*! @brief Set the mode of all relays at the same time.
+ *  @param state OFF = 0, ON = 1. */
 void UNIT_4RELAY::relayALL(bool state) {
-    write1Byte(DEVICE_I2C_ADDR, relay_Reg, state * (0x0f));
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, state * (0x0f));
 }
 
+/*! @brief Set the mode of all leds at the same time.
+ *  @param state OFF = 0, ON = 1. */
 void UNIT_4RELAY::LED_ALL(bool state) {
-    write1Byte(DEVICE_I2C_ADDR, relay_Reg, state * (0xf0));
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, state * (0xf0));
 }
 
+/*! @brief Control the on/off of the specified relay.
+ *  @param number Bit number of relay (0~3).
+    @param state OFF = 0, ON = 1 . */
 void UNIT_4RELAY::relayWrite(uint8_t number, bool state) {
-    uint8_t StateFromDevice = read1Byte(DEVICE_I2C_ADDR, relay_Reg);
+    uint8_t StateFromDevice =
+        read1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG);
     if (state == 0) {
         StateFromDevice &= ~(0x01 << number);
     } else {
         StateFromDevice |= (0x01 << number);
     }
-    write1Byte(DEVICE_I2C_ADDR, relay_Reg, StateFromDevice);
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, StateFromDevice);
 }
 
+/*! @brief Control the on/off of the specified led.
+ *  @param number Bit number of led (0~3).
+    @param state OFF = 0, ON = 1 . */
 void UNIT_4RELAY::LEDWrite(uint8_t number, bool state) {
-    uint8_t StateFromDevice = read1Byte(DEVICE_I2C_ADDR, relay_Reg);
+    uint8_t StateFromDevice =
+        read1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG);
     if (state == 0) {
-        StateFromDevice &= ~(0x10 << number);
+        StateFromDevice &= ~(UNIT_4RELAY_REG << number);
     } else {
-        StateFromDevice |= (0x10 << number);
+        StateFromDevice |= (UNIT_4RELAY_REG << number);
     }
-    write1Byte(DEVICE_I2C_ADDR, 0x11, StateFromDevice);
-}
-
-void UNIT_4RELAY::switchMode(bool mode) {
-    write1Byte(DEVICE_I2C_ADDR, 0x10, mode);
+    write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, StateFromDevice);
 }

@@ -1,26 +1,31 @@
+/*!
+ * @brief An integrated 4-way relay module From M5Stack
+ * @copyright Copyright (c) 2022 by M5Stack[https://m5stack.com]
+ *
+ * @Links [4-Relay](https://docs.m5stack.com/en/unit/4relay)
+ * @version  V0.0.1
+ * @date  2022-07-22
+ */
 #ifndef _UNIT_4RELAY_H_
 #define _UNIT_4RELAY_H_
 
 #include <Wire.h>
-
 #include "pins_arduino.h"
 
-#define DEVICE_I2C_ADDR 0X26
-#define mode_Reg        0X10
-#define relay_Reg       0X11
+#define UNIT_4RELAY_ADDR      0X26
+#define UNIT_4RELAY_REG       0X10
+#define UNIT_4RELAY_RELAY_REG 0X11
 
 class UNIT_4RELAY {
    private:
     TwoWire *_wire;
     uint8_t _sda;
     uint8_t _scl;
-    uint32_t _freq;
     void write1Byte(uint8_t address, uint8_t register_address, uint8_t data);
     uint8_t read1Byte(uint8_t address, uint8_t register_address);
 
    public:
-    void begin(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL,
-               uint32_t freq = 4000000UL);
+    void begin(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL);
     void Init(bool mode);
 
     void relayWrite(uint8_t number, bool state);

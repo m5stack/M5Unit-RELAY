@@ -1,17 +1,16 @@
 /*
 *******************************************************************************
 * Copyright (c) 2021 by M5Stack
-*                  Equipped with M5StickC sample source code
-*                          配套  M5StickC 示例源代码
-* Visit the website for more
-information：https://docs.m5stack.com/en/core/m5stickc
-* 获取更多资料请访问：https://docs.m5stack.com/zh_CN/core/m5stickc
+*                  Equipped with M5StickCPlus sample source code
+*                          配套  M5StickCPlus 示例源代码
+* Visit for more information: https://docs.m5stack.com/en/unit/4relay
+* 获取更多资料请访问: https://docs.m5stack.com/zh_CN/unit/4relay
 *
-* describe：4-Relay.  4个继电器
-* date：2021/8/10
+* Product: Unit 4RELAY.
+* Date: 2022/7/22
 *******************************************************************************
   Please connect to port,Control 4 relays and demonstrate the asynchronous
-control relay LED 请连接端口，控制4继电器，并演示异步控制继电器LED
+  control relay LED 请连接端口，控制4继电器，并演示异步控制继电器LED
 -------------------------------------------------------------------------------
   RELAY control reg           | 0x10
   -----------------------------------------------------------------------------
@@ -26,10 +25,10 @@ control relay LED 请连接端口，控制4继电器，并演示异步控制继�
                               | LED1| LED2| LED3| LED4| RLY1| RLY2| RLY3| RLY4|
 -------------------------------------------------------------------------------*/
 
-#include <M5StickC.h>
+#include <M5StickCPlus.h>
+#include "Unit_4RELAY.h"
 
-#include "UNIT_4RELAY.h"
-UNIT_4RELAY unit_4relay;
+UNIT_4RELAY relay;
 
 void setup() {
     M5.begin();             // Init M5StickC.  初始化 M5StickC
@@ -39,9 +38,9 @@ void setup() {
     M5.Lcd.print("4-RELAY UNIT");
     M5.Lcd.setCursor(0, 25);
     M5.Lcd.print("Independent Switch:");
-    Wire.begin(32, 33);   // Initialize pin 32,33.  初始化32,33引脚
-    unit_4relay.Init(1);  // Set the lamp and relay to asynchronous mode(Async =
-                          // 0,Sync = 1).  将灯和继电器设为非同步模式
+    Wire.begin(32, 33);  // Initialize pin 32,33.  初始化32,33引脚
+    relay.Init(1);       // Set the lamp and relay to asynchronous mode(Async =
+                    // 0,Sync = 1).  将灯和继电器设为非同步模式
 }
 
 char count_i   = 1;
@@ -54,22 +53,22 @@ void loop() {
         M5.Lcd.setCursor(117, 25);
         if (count_i < 5) {
             M5.Lcd.printf("%d ON", count_i);
-            unit_4relay.relayWrite(
+            relay.relayWrite(
                 count_i - 1,
                 1);  // Open the relay at Count_i.  打开count_i处的继电器
-            unit_4relay.relayWrite(count_i - 2, 0);
-            unit_4relay.LEDWrite(count_i - 1, 1);
-            unit_4relay.LEDWrite(count_i - 2, 0);
+            relay.relayWrite(count_i - 2, 0);
+            relay.LEDWrite(count_i - 1, 1);
+            relay.LEDWrite(count_i - 2, 0);
         } else {
             M5.Lcd.printf("ALL.ON ");
-            unit_4relay.relayALL(1);  // Open all the relays.  打开所有的继电器
-            unit_4relay.LED_ALL(1);
+            relay.relayALL(1);  // Open all the relays.  打开所有的继电器
+            relay.LED_ALL(1);
         }
         count_i++;
         if (count_i > 6) {
             count_i = 1;
-            unit_4relay.relayALL(0);  // Open all the relays.  打开所有的继电器
-            unit_4relay.LED_ALL(0);
+            relay.relayALL(0);  // Open all the relays.  打开所有的继电器
+            relay.LED_ALL(0);
         }
     }
 }
