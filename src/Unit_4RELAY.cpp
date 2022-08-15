@@ -48,7 +48,7 @@ void UNIT_4RELAY::relayAll(bool state) {
 
 /*! @brief Set the mode of all leds at the same time.
  *  @param state OFF = 0, ON = 1. */
-void UNIT_4RELAY::LED_ALL(bool state) {
+void UNIT_4RELAY::ledAll(bool state) {
     write1Byte(UNIT_4RELAY_ADDR, UNIT_4RELAY_RELAY_REG, state * (0xf0));
 }
 
