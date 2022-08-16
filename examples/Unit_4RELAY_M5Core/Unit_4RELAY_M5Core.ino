@@ -102,10 +102,10 @@ void loop() {
         } else {
             if (flag_all) {
                 M5.Lcd.printf("ALL.ON ");
-                relay.LED_ALL(1);
+                relay.ledAll(1);
             } else {
                 M5.Lcd.printf("ALL.OFF");
-                relay.LED_ALL(0);
+                relay.ledAll(0);
             }
         }
         flag_all = !flag_all;

@@ -97,13 +97,13 @@ void loop() {
             if (sync_flag)
                 relay.relayAll(1);  // Open all the relays.  打开所有的继电器
             else
-                relay.LED_ALL(1);  // Turn on all the lights. 打开所有的灯
+                relay.ledAll(1);  // Turn on all the lights. 打开所有的灯
         } else {
             M5.Lcd.printf("ALL.OFF");
             if (sync_flag)
                 relay.relayAll(0);  // Close all relays.  关闭所有的继电器
             else
-                relay.LED_ALL(0);  // Turn off all the lights.  关闭所有的灯
+                relay.ledAll(0);  // Turn off all the lights.  关闭所有的灯
         }
     }
 }
