@@ -42,6 +42,7 @@ void setup() {
     M5.Lcd.print("   Relay State: \n   Sync Mode: ");
     M5.Lcd.setCursor(0, 220, 2);
     M5.Lcd.print("Independent switch  Sync/Async    ALL relay");
+    relay.begin();
     relay.Init(0);  // Set the lamp and relay to asynchronous mode(Async =
                     // 0,Sync = 1).  将灯和继电器设为非同步模式
 }
