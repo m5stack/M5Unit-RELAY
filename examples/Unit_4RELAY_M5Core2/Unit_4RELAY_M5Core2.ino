@@ -36,12 +36,13 @@ UNIT_4RELAY relay;
 void setup() {
     M5.begin(true, false, true, true);  // Init M5Core2 And the I2C port(21,22).
                                         // 初始化 M5Core2 和I2C(21,22)端口
-    M5.Lcd.setCursor(
-        80, 0, 4);  // Set the cursor position to (80,0). 将光标位置设置为(80,0)
+    M5.Lcd.setCursor(80, 0,
+                     4);  // Set the cursor position to (80,0). 将光标位置设置为(80,0)
     M5.Lcd.print("4-RELAY UNIT\n\n");
     M5.Lcd.print("   Relay State: \n   Sync Mode: ");
     M5.Lcd.setCursor(0, 220, 2);
     M5.Lcd.print("Independent switch  Sync/Async    ALL relay");
+    relay.begin();
     relay.Init(0);  // Set the lamp and relay to asynchronous mode(Async =
                     // 0,Sync = 1).  将灯和继电器设为非同步模式
 }
@@ -50,16 +51,15 @@ char count_i   = 0;
 bool sync_flag = 0, all_flag = 0;
 
 void loop() {
-    M5.update();  // Check button down state.  检测按键按下状态
+    M5.update();                 // Check button down state.  检测按键按下状态
     if (M5.BtnA.wasPressed()) {  // If button A is pressed.  如果按键A按下
         M5.Lcd.fillRect(160, 50, 100, 20, BLACK);
         M5.Lcd.setCursor(160, 50, 4);
         if (count_i < 4) {
             M5.Lcd.printf("%d ON", count_i + 1);
             if (sync_flag) {
-                relay.relayWrite(
-                    count_i,
-                    1);  // Open the relay at Count_i.  打开count_i处的继电器
+                relay.relayWrite(count_i,
+                                 1);  // Open the relay at Count_i.  打开count_i处的继电器
             } else
                 relay.ledWrite(count_i,
                                1);  // Turn on count_I to get led lights.
@@ -71,9 +71,8 @@ void loop() {
                     (count_i - 4),
                     0);  // Close the relay at Count_i.  关闭count_i处的继电器
             } else
-                relay.ledWrite(
-                    (count_i - 4),
-                    0);  // Turn off the COUNt_I leds.  关闭count_i出得led灯
+                relay.ledWrite((count_i - 4),
+                               0);  // Turn off the COUNt_I leds.  关闭count_i出得led灯
         }
         count_i++;
         if (count_i >= 8) count_i = 0;
