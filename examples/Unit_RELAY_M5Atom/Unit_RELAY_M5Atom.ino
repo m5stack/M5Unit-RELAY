@@ -15,14 +15,16 @@
 
 #include <M5Atom.h>
 
-void setup() {
+void setup()
+{
     M5.begin(true, false, true);  // Init M5Atom.  初始化 M5Atom
     Serial.println(("Relay Example"));
     pinMode(26, OUTPUT);  // Set pin 26 to output mode.  设置26号引脚为输出模式
     M5.dis.fillpix(0x00ff00);
 }
 
-void loop(void) {
+void loop(void)
+{
     Serial.println("ON");
     digitalWrite(26, HIGH);
     delay(1000);

@@ -33,7 +33,8 @@
 
 UNIT_4RELAY relay;
 
-void setup() {
+void setup()
+{
     M5.begin();
     M5.Lcd.setCursor(90, 0, 4);
     M5.Lcd.setTextColor(TFT_ORANGE, TFT_BLACK);
@@ -56,7 +57,8 @@ uint8_t count_i = 0;
 bool state      = 0;
 bool flag_mode = 0, flag_all = false;
 
-void loop() {
+void loop()
+{
     if (M5.BtnA.wasPressed()) {
         M5.Lcd.fillRect(160, 50, 100, 20, TFT_BLACK);
         M5.Lcd.setCursor(160, 50, 4);

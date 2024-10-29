@@ -15,7 +15,8 @@
 
 #include <M5StickC.h>
 
-void setup() {
+void setup()
+{
     M5.begin();             // Init M5StickC.  初始化 M5StickC
     M5.Lcd.setRotation(3);  // Rotate the screen.  旋转屏幕
     M5.Lcd.setCursor(50, 0);
@@ -23,7 +24,8 @@ void setup() {
     pinMode(32, OUTPUT);  // Set pin 32 to output mode.  设置32号引脚为输出模式
 }
 
-void loop(void) {
+void loop(void)
+{
     M5.Lcd.setCursor(60, 40);
     M5.Lcd.print("ON");
     digitalWrite(32, HIGH);

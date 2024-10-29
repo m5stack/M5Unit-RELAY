@@ -15,7 +15,8 @@
 
 #include <M5StickCPlus.h>
 
-void setup() {
+void setup()
+{
     M5.begin();             // Init M5StickCPlus.  初始化 M5StickCPlus
     M5.Lcd.setRotation(3);  // Rotate the screen.  旋转屏幕
     M5.Lcd.setCursor(50, 0);
@@ -24,7 +25,8 @@ void setup() {
     pinMode(33, OUTPUT);
 }
 
-void loop(void) {
+void loop(void)
+{
     M5.Lcd.setCursor(60, 40);
     M5.Lcd.print("ON");
     digitalWrite(32, HIGH);

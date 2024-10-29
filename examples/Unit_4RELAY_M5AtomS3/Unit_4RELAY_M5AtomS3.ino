@@ -33,7 +33,8 @@
 
 UNIT_4RELAY relay;
 
-void setup() {
+void setup()
+{
     auto cfg = M5.config();
     M5.begin(cfg);
     M5.Lcd.setCursor(25, 2);
@@ -47,7 +48,8 @@ void setup() {
 
 char count_i = 0;
 
-void loop() {
+void loop()
+{
     // relay.relayAll(1);
     // delay(1000);
     // relay.relayAll(0);

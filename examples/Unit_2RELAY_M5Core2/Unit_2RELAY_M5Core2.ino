@@ -15,17 +15,19 @@
 
 #include <M5Core2.h>
 
-void setup() {
+void setup()
+{
     M5.begin();             // Init M5Core2.  初始化 M5Core2
     M5.Lcd.setTextSize(2);  // Set the text size to 2.  设置文字大小为2
     M5.Lcd.setCursor(90, 0);
     M5.Lcd.println(("Relay Example"));
-    dacWrite(25, 0);  // disable the speak noise
+    dacWrite(25, 0);      // disable the speak noise
     pinMode(32, OUTPUT);  // Set pin 32 to output mode.  设置32号引脚为输出模式
     pinMode(33, OUTPUT);  // Set pin 33 to output mode.  设置33号引脚为输出模式
 }
 
-void loop(void) {
+void loop(void)
+{
     M5.Lcd.setCursor(130, 40);
     M5.Lcd.print("ON");
     digitalWrite(32, HIGH);

@@ -33,12 +33,12 @@
 
 UNIT_4RELAY relay;
 
-void setup() {
-    M5.begin();             // Init M5StickCPlus.  初始化 M5StickCPlus
-    M5.Lcd.setRotation(3);  // Rotate the screen.  旋转屏幕
-    M5.Lcd.setTextSize(2);  // Set the text size.  设置文字大小
-    M5.Lcd.setCursor(
-        50, 5);  // Set the cursor position to (50,5).  将光标位置设置为(50,5)
+void setup()
+{
+    M5.begin();               // Init M5StickCPlus.  初始化 M5StickCPlus
+    M5.Lcd.setRotation(3);    // Rotate the screen.  旋转屏幕
+    M5.Lcd.setTextSize(2);    // Set the text size.  设置文字大小
+    M5.Lcd.setCursor(50, 5);  // Set the cursor position to (50,5).  将光标位置设置为(50,5)
     M5.Lcd.print("4-RELAY UNIT");
     M5.Lcd.setCursor(0, 25);
     M5.Lcd.print("Independent Switch:");
@@ -50,7 +50,8 @@ void setup() {
 char count_i  = 0;
 bool flag_all = false;
 
-void loop() {
+void loop()
+{
     if (M5.BtnA.wasPressed()) {  // If button A is pressed.  如果按键A按下
         M5.Lcd.fillRect(0, 50, 40, 20, BLACK);
         M5.Lcd.setCursor(0, 50);

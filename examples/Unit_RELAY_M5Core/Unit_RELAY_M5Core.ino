@@ -15,17 +15,19 @@
 
 #include <M5Stack.h>
 
-void setup() {
+void setup()
+{
     M5.begin();             // Init M5Stack.  初始化M5Stack
     M5.Power.begin();       // Init power  初始化电源模块
     M5.Lcd.setTextSize(2);  // Set the text size to 2.  设置文字大小为2
     M5.Lcd.setCursor(85, 0);
     M5.Lcd.println(("Relay Example"));
-    dacWrite(25, 0);  // disable the speak noise.  禁用喇叭
+    dacWrite(25, 0);      // disable the speak noise.  禁用喇叭
     pinMode(26, OUTPUT);  // Set pin 26 to output mode.  设置26号引脚为输出模式
 }
 
-void loop(void) {
+void loop(void)
+{
     M5.Lcd.setCursor(135, 40);
     M5.Lcd.print("ON");
     digitalWrite(26, HIGH);

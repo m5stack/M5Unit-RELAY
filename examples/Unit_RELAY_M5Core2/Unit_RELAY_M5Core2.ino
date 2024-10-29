@@ -15,7 +15,8 @@
 
 #include <M5Core2.h>
 
-void setup() {
+void setup()
+{
     M5.begin();             // Init M5Core2.  初始化 M5Core2
     M5.Lcd.setTextSize(2);  // Set the text size to 2.  设置文字大小为2
     M5.Lcd.setCursor(90, 0);
@@ -24,7 +25,8 @@ void setup() {
     pinMode(26, OUTPUT);
 }
 
-void loop(void) {
+void loop(void)
+{
     M5.Lcd.setCursor(130, 40);
     M5.Lcd.print("ON");
     digitalWrite(26, HIGH);

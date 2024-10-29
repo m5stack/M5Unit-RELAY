@@ -33,7 +33,8 @@
 
 UNIT_4RELAY relay;
 
-void setup() {
+void setup()
+{
     M5.begin(true, false, false);  // Init M5Atom.  初始化 M5Atom
     Serial.print(relay.begin(&Wire, 26, 32));
     relay.Init(1);  // Set the lamp and relay to synchronous mode(Async =
@@ -44,7 +45,8 @@ void setup() {
 
 char count_i = 0;
 
-void loop() {
+void loop()
+{
     // relay.relayAll(1);
     // delay(1000);
     // relay.relayAll(0);
