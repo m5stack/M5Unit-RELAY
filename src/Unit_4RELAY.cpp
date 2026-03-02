@@ -6,7 +6,12 @@ bool UNIT_4RELAY::begin(TwoWire *wire, uint8_t sda, uint8_t scl)
     _wire = wire;
     _sda  = sda;
     _scl  = scl;
+#if defined(ARDUINO_ARCH_AVR)
+    _wire->begin();
+    return true;
+#else
     return _wire->begin((int)_sda, (int)_scl, (uint32_t)0U);
+#endif
 }
 
 /*! @brief Write a certain length of data to the specified register address. */
